@@ -1,5 +1,4 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import type { TicketFilter } from '../types'
 import { filterTickets } from '../lib/tickets'
 import { formatDateTime } from '../lib/format'
@@ -12,9 +11,18 @@ const FILTERS: { value: TicketFilter; label: string }[] = [
   { value: 'all', label: 'All' },
 ]
 
+const DEFAULT_FILTER: TicketFilter = 'open'
+
+function isFilter(value: string | null): value is TicketFilter {
+  return FILTERS.some((f) => f.value === value)
+}
+
 export function TicketList() {
   const { tickets } = useTickets()
-  const [filter, setFilter] = useState<TicketFilter>('open')
+  // Filter lives in the URL (?status=resolved) so it survives refresh and can be shared.
+  const [searchParams] = useSearchParams()
+  const statusParam = searchParams.get('status')
+  const filter: TicketFilter = isFilter(statusParam) ? statusParam : DEFAULT_FILTER
   const visible = filterTickets(tickets, filter)
 
   return (
@@ -26,19 +34,18 @@ export function TicketList() {
         </Link>
       </div>
 
-      <div className="tabs" role="tablist">
+      <nav className="tabs" aria-label="Filter tickets">
         {FILTERS.map((f) => (
-          <button
+          <Link
             key={f.value}
-            role="tab"
-            aria-selected={filter === f.value}
+            to={f.value === DEFAULT_FILTER ? '/' : `/?status=${f.value}`}
+            aria-current={filter === f.value ? 'page' : undefined}
             className={`tab${filter === f.value ? ' tab--active' : ''}`}
-            onClick={() => setFilter(f.value)}
           >
             {f.label} <span className="tab__count">{filterTickets(tickets, f.value).length}</span>
-          </button>
+          </Link>
         ))}
-      </div>
+      </nav>
 
       {visible.length === 0 ? (
         <p className="empty">

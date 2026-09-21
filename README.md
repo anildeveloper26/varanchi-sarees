@@ -25,7 +25,7 @@ Requires Node 20+.
 ## What it does
 
 - **Create a ticket** — `/tickets/new`. Title, optional description, and the three identification fields: customer name, order number, phone number. Required fields are validated before saving.
-- **List tickets** — `/`. Filter tabs for Open / Resolved / All with counts. Open tickets sort first, newest first within each group. Each row links to the ticket.
+- **List tickets** — `/`. Filter tabs for Open / Resolved / All with counts; the active filter is kept in the URL (`/?status=resolved`) so it survives refresh and can be linked. Open tickets sort first, newest first within each group. Each row links to the ticket.
 - **Ticket detail** — `/tickets/:id`. Shows all fields, status badge, created/resolved timestamps, and the comment thread. Unknown ids show a "not found" page.
 - **Comment thread** — add notes to a ticket; each note shows who wrote it and when. The author comes from the "Your name" box in the header (persisted, so you set it once). Posting is disabled until a name is set.
 - **Resolve / reopen** — one button on the detail page. Resolved tickets get a `resolvedAt` timestamp and a green badge; reopening clears it.

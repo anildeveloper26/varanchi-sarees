@@ -233,6 +233,7 @@ a {
   margin-bottom: 1rem;
 }
 .tab {
+  display: inline-block;
   font: inherit;
   background: none;
   border: none;
@@ -240,7 +241,11 @@ a {
   margin-bottom: -1px;
   padding: 0.5rem 0.9rem;
   color: var(--ink-muted);
+  text-decoration: none;
   cursor: pointer;
+}
+.tab:hover {
+  color: var(--green);
 }
 .tab--active {
   color: var(--green);
