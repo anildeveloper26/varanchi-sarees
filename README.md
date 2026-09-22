@@ -1,6 +1,6 @@
-# Varanchi Support — ticket tracker
+# Support Desk — ticket tracker
 
-A small customer-support ticket app built for the Varanchi take-home exercise. A support agent can create tickets (with customer name, order number and phone number), open a ticket to see its details, keep a running thread of notes on it, and mark it resolved.
+A small customer-support ticket app built as a take-home exercise. A support agent can create tickets (with customer name, order number and phone number), open a ticket to see its details, keep a running thread of notes on it, and mark it resolved.
 
 Built with **React 19 + TypeScript + Vite**, `react-router-dom` for routing, and Vitest for tests. No backend — data lives in the browser's `localStorage`.
 
@@ -30,7 +30,7 @@ Requires Node 20+.
 - **Comment thread** — add notes to a ticket; each note shows who wrote it and when. The author comes from the "Your name" box in the header (persisted, so you set it once). Posting is disabled until a name is set.
 - **Resolve / reopen** — one button on the detail page. Resolved tickets get a `resolvedAt` timestamp and a green badge; reopening clears it.
 
-Data and the agent name persist across refreshes via `localStorage` (`varanchi.tickets`, `varanchi.agentName`).
+Data and the agent name persist across refreshes via `localStorage` (`supportdesk.tickets`, `supportdesk.agentName`).
 
 ## Project structure
 
@@ -65,7 +65,7 @@ src/
 - **Agent name in the header, not auth.** The brief asks that each comment show *who* wrote it but says no login is needed. A persisted "Your name" field is the simplest honest answer.
 - **Router with real URLs.** Ticket pages are deep-linkable and survive refresh. Small cost (one dependency) for a more realistic app shape.
 - **No validation on phone format.** Formats vary by country; the field is required but not pattern-checked. Order number likewise is free text.
-- **Colors and fonts** are borrowed from varanchi.com (deep green, cream, gold; Cormorant + DM Sans) so it feels like an internal tool for the brand. Design was not the focus.
+- **Colors and fonts** — deep green, cream, gold; Cormorant + DM Sans — chosen to feel like an internal tool for a premium retail brand. Design was not the focus.
 
 ## How I work: conventions used in this repo
 
@@ -97,4 +97,4 @@ src/
 
 I used Claude Code (Claude Opus) throughout. I gave it the brief, asked it to summarise the requirements, then had it draft a plan before writing any code. I made the design choices up front (localStorage, header name field for comment author, react-router, a few Vitest tests on the pure logic) and it implemented against that plan — scaffolding, types, the pure ticket functions and their tests, the context/provider, the components and the CSS. It also pointed a browser at the running app and walked through create → comment → resolve → filter → refresh → bad URL to verify everything worked.
 
-Where I steered or corrected it: I asked it to plan before building instead of jumping straight into code; I asked it to pull the palette and fonts from the real varanchi.com site rather than inventing a theme; and after it split the context file to satisfy a lint warning I reviewed the resulting three files to make sure the split was actually clearer and not just quieter. One visual bug it introduced (required-field asterisks wrapping onto their own line) it caught itself in the browser check and fixed.
+Where I steered or corrected it: I asked it to plan before building instead of jumping straight into code; I asked it to pull the palette and fonts from the company's public website rather than inventing a theme; and after it split the context file to satisfy a lint warning I reviewed the resulting three files to make sure the split was actually clearer and not just quieter. One visual bug it introduced (required-field asterisks wrapping onto their own line) it caught itself in the browser check and fixed.

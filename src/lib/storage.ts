@@ -1,7 +1,7 @@
 import type { Ticket } from '../types'
 
-const TICKETS_KEY = 'varanchi.tickets'
-const AGENT_NAME_KEY = 'varanchi.agentName'
+const TICKETS_KEY = 'supportdesk.tickets'
+const AGENT_NAME_KEY = 'supportdesk.agentName'
 
 // localStorage can throw (private mode, quota) or hold garbage from an older
 // version of the app, so every read is guarded and falls back to a safe default.

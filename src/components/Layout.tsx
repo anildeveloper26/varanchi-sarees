@@ -9,9 +9,9 @@ export function Layout() {
       <header className="topbar">
         <div className="topbar__inner">
           <Link to="/" className="brand">
-            <span className="brand__mark">V</span>
+            <span className="brand__mark">S</span>
             <span className="brand__text">
-              Varanchi <em>Support</em>
+              Support <em>Desk</em>
             </span>
           </Link>
           <nav className="nav">
