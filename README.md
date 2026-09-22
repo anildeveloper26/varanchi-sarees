@@ -67,6 +67,23 @@ src/
 - **No validation on phone format.** Formats vary by country; the field is required but not pattern-checked. Order number likewise is free text.
 - **Colors and fonts** are borrowed from varanchi.com (deep green, cream, gold; Cormorant + DM Sans) so it feels like an internal tool for the brand. Design was not the focus.
 
+## How I work: conventions used in this repo
+
+- **Reusable components.** Anything rendered in more than one place is its own component — `StatusBadge` is shared by the list and the detail page, `Layout` owns the header once for every route, `CommentThread` is a self-contained unit that only needs a ticket id and its comments. New UI should be composed from these before adding new ones.
+- **Stateless first, UI second.** Every rule about a ticket (create, comment, resolve, reopen, filter, sort) was written as a pure function in `src/lib/tickets.ts` and unit-tested *before* any component existed. Components are thin: they read from the store and call an action. If a component needs logic, it goes in `lib/` and gets a test, not in the JSX.
+- **One source of truth.** Ticket state lives in `TicketsProvider` only. Components never touch `localStorage` directly; the provider persists through `lib/storage.ts`.
+
+### Production rules
+
+- `strict: true` in TypeScript. No `any`; `unknown` plus a check at boundaries (`JSON.parse`, URL params).
+- State is never mutated. Every update returns a new object so React can detect the change.
+- Anything that can throw at runtime (storage reads/writes, `JSON.parse`) is wrapped and has a safe fallback. The app must not white-screen on bad data.
+- Invalid URLs are handled: unknown ticket id shows a not-found page, unknown filter falls back to the default, unknown route redirects home.
+- `npm run build`, `npm run lint` and `npm test` must all pass before a commit. The build type-checks (`tsc -b`) — Vite alone does not.
+- User-facing strings say what happened and what to do next (the validation banner names the missing fields; the disabled note button explains why).
+- No secrets, no environment-specific values in the repo. Nothing here needs a `.env`.
+- Small, focused commits with a message that says *why*, not just *what*.
+
 ## What I'd do with more time
 
 - A small API (e.g. Express or a Vercel function) with a JSON/SQLite store so multiple agents share the same tickets.
